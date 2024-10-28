@@ -159,6 +159,10 @@
     };
   };
 
+  age.secrets = {
+    "meilisearch/environment".file = ../secrets/meilisearch/environment.age;
+  };
+
   # Configure needed services
   services = {
     # Enable redis
@@ -168,6 +172,7 @@
     meilisearch = {
       enable = false;
       environment = "production";
+      masterKeyEnvironmentFile = config.age.secrets."meilisearch/environment".path
     };
 
     # Enable PostgreSQL
