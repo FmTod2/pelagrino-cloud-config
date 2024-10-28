@@ -166,7 +166,7 @@
 
     # Enable MeiliSearch
     meilisearch = {
-      enable = true;
+      enable = false;
       environment = "production";
     };
 
