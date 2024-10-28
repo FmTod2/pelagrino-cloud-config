@@ -130,7 +130,7 @@
       description = user.description;
       extraGroups = [user.name "wheel" "networkmanager"];
 
-      openssh.authorizedKeys.keys = [];
+      openssh.authorizedKeys.keys = [ "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIP5mPSIN5BINqWXcPN+Iky1rePCrmSXx9mQpDpMNDThE" ];
     };
   };
 
