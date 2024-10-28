@@ -1,6 +1,7 @@
 pkgs:
 with pkgs; [
   libsecret
+  kitty
   git
   wget
   curl
