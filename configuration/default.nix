@@ -172,7 +172,7 @@
     meilisearch = {
       enable = false;
       environment = "production";
-      masterKeyEnvironmentFile = config.age.secrets."meilisearch/environment".path
+      masterKeyEnvironmentFile = config.age.secrets."meilisearch/environment".path;
     };
 
     # Enable PostgreSQL
