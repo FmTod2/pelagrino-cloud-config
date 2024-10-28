@@ -73,7 +73,7 @@
 
     # Perform garbage collection weekly to maintain low disk usage
     gc = {
-      automatic = true;
+      automatic = false; # Disable in favor of NH
       dates = "weekly";
       options = "--delete-older-than 1w";
     };
@@ -178,7 +178,6 @@
 
       ensureUsers = [
         {
-          login = true;
           name = user.name;
           ensureDBOwnership = true;
         }
