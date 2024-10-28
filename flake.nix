@@ -82,6 +82,7 @@
             ./hardware.nix
             ./configuration
             inputs.home-manager.nixosModules.default
+            inputs.agenix.nixosModules.default
           ]
           ++ lib.attrsets.mapAttrsToList (name: value: value) outputs.nixosModules;
       };
