@@ -185,5 +185,5 @@
     };
   };
 
-  server.pelagrino.enable = true;
+  server.pelagrino.enable = false;
 }
