@@ -1,0 +1,26 @@
+pkgs:
+with pkgs; [
+  libsecret
+  wget
+  curl
+  git
+  fzf
+  lshw
+  lsd
+  bat
+  ripgrep
+  unzip
+  jq
+  zoxide
+  htop
+  gcc
+  glibc
+  glib
+  just
+  gtop
+  wmctrl
+  busybox
+  libinput
+  wl-clipboard
+  just
+]
