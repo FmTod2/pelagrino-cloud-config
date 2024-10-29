@@ -170,7 +170,7 @@
 
     # Enable MeiliSearch
     meilisearch = {
-      enable = false;
+      enable = true;
       environment = "production";
       masterKeyEnvironmentFile = config.age.secrets."meilisearch/environment".path;
     };
