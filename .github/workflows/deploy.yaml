@@ -14,7 +14,7 @@ jobs:
   deploy:
     name: "Deploy to production"
     runs-on: ubuntu-latest
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    if: github.event_name == 'push' && github.ref == 'refs/heads/production'
     # needs: test
     steps:
       - name: Configure SSH
@@ -35,7 +35,7 @@ jobs:
           SSH_HOST: ${{ secrets.PRODUCTION_SSH_HOST }}
 
       - name: Check out the source
-        run: ssh production 'cd /etc/nixos && git fetch && git reset --hard origin/main'
+        run: ssh production 'cd /etc/nixos && git fetch && git reset --hard origin/production'
 
       - name: Rebuild the system
         run: ssh production 'echo ${{ secrets.PRODUCTION_SSH_PASSWORD }} | sudo -S nixos-rebuild switch --flake /etc/nixos#pelagrino-production'
