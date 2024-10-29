@@ -38,7 +38,7 @@
     stateVersion = "24.05";
 
     # Hostname
-    hostName = "pelagrino-remote";
+    hostName = "pelagrino-production";
 
     # Root domain
     rootDomain = "pelagrino.com";
