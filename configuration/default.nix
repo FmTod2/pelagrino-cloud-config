@@ -22,6 +22,10 @@
   # Enable the RealtimeKit system service
   security.rtkit.enable = true;
 
+  # Enable SSH agent authentication
+  security.pam.sshAgentAuth.enable = true;
+  programs.ssh.startAgent = true;
+
   # Configure networking
   networking = {
     inherit hostName;
@@ -157,10 +161,6 @@
         extraArgs = "--keep-since 4d --keep 3";
       };
     };
-  };
-
-  age.secrets = {
-    "meilisearch/environment".file = ../secrets/meilisearch/environment.age;
   };
 
   # Configure needed services
