@@ -79,10 +79,11 @@
         };
         modules =
           [
-            ./hardware.nix
-            ./configuration
             inputs.home-manager.nixosModules.default
             inputs.agenix.nixosModules.default
+            ./hardware.nix
+            ./configuration
+            ./secrets
           ]
           ++ lib.attrsets.mapAttrsToList (name: value: value) outputs.nixosModules;
       };
