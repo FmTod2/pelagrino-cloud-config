@@ -1,5 +1,8 @@
-name: CI
-on: [push, pull_request]
+name: Deploy - Production
+on:
+  push:
+    branches:
+      - production
 
 concurrency:
   group: ci-deployment-production
