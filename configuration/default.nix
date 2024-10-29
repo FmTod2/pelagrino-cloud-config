@@ -134,7 +134,10 @@
       description = user.description;
       extraGroups = [user.name "wheel" "networkmanager"];
 
-      openssh.authorizedKeys.keys = [ "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIP5mPSIN5BINqWXcPN+Iky1rePCrmSXx9mQpDpMNDThE" ];
+      openssh.authorizedKeys.keys = [ 
+        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIP5mPSIN5BINqWXcPN+Iky1rePCrmSXx9mQpDpMNDThE pelagrino@remote"
+        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPaiRTYOkyQBD8JfB9Vx6GyP+P7AUv9hKDiV5k7PiCe1 pelagrino@github"
+      ];
     };
   };
 
