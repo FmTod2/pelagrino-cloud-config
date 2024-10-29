@@ -69,8 +69,8 @@ in {
           "catch_workers_output" = true;
         };
 
-        phpEnv."PATH" = lib.makeBinPath [ pkgs.php81 ];
-      
+        phpEnv."PATH" = lib.makeBinPath [pkgs.php81];
+
         phpOptions = ''
           extension=${pkgs.php81Extensions.simplexml}/lib/php/extensions/simplexml.so
           extension=${pkgs.php81Extensions.redis}/lib/php/extensions/redis.so
