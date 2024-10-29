@@ -1,0 +1,33 @@
+name: CI
+on: [push, pull_request]
+jobs:
+  # test:
+  #   ...
+  deploy:
+    name: "Deploy to production"
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+    # needs: test
+    steps:
+      - name: Configure SSH
+        run: |
+          mkdir -p ~/.ssh/
+          echo "$SSH_KEY" > ~/.ssh/production.key
+          chmod 600 ~/.ssh/production.key
+          cat >>~/.ssh/config <<END
+          Host production
+            HostName $SSH_HOST
+            User $SSH_USER
+            IdentityFile ~/.ssh/production.key
+            StrictHostKeyChecking no
+          END
+        env:
+          SSH_USER: ${{ secrets.PRODUCTION_SSH_USER }}
+          SSH_KEY: ${{ secrets.PRODUCTION_SSH_KEY }}
+          SSH_HOST: ${{ secrets.PRODUCTION_SSH_HOST }}
+
+      - name: Check out the source
+        run: ssh production 'cd /etc/nixos && git fetch && git reset --hard origin/main'
+
+      - name: Rebuild the system
+        run: ssh production 'echo ${{ secrets.PRODUCTION_SSH_PASSWORD }} | sudo -S nh os switch'
