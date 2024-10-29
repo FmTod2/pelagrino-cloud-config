@@ -1,5 +1,6 @@
 pkgs:
 with pkgs; [
+  inputs.agenix.default
   libsecret
   kitty
   git
