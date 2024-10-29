@@ -35,4 +35,4 @@ jobs:
         run: ssh production 'cd /etc/nixos && git fetch && git reset --hard origin/main'
 
       - name: Rebuild the system
-        run: ssh production 'echo ${{ secrets.PRODUCTION_SSH_PASSWORD }} | sudo -S nh os switch'
+        run: ssh production 'echo ${{ secrets.PRODUCTION_SSH_PASSWORD }} | sudo -S nixos-rebuild switch --flake /etc/nixos#pelagrino-production'
