@@ -158,7 +158,8 @@
           "nixpkgs-stable"
         ],
         "nixpkgs-stable": "nixpkgs-stable",
-        "nixpkgs-unstable": "nixpkgs-unstable"
+        "nixpkgs-unstable": "nixpkgs-unstable",
+        "tmux-tokyo-night": "tmux-tokyo-night"
       }
     },
     "systems": {
@@ -173,6 +174,22 @@
       "original": {
         "owner": "nix-systems",
         "repo": "default",
+        "type": "github"
+      }
+    },
+    "tmux-tokyo-night": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1719759351,
+        "narHash": "sha256-k4CbfWdyk7m/T97ytxLOEMUKrkU5iJSIu3lvyT1B1jU=",
+        "owner": "janoamaral",
+        "repo": "tokyo-night-tmux",
+        "rev": "b45b742eb3fdc01983c21b1763594b549124d065",
+        "type": "github"
+      },
+      "original": {
+        "owner": "janoamaral",
+        "repo": "tokyo-night-tmux",
         "type": "github"
       }
     }
