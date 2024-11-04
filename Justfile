@@ -55,7 +55,7 @@ history:
 
 # Open a nix shell with the flake
 repl:
-  sudo nixos-rebuild repl --flake .
+  sudo nixos-rebuild repl --flake .#pelagrino-production
 
 # remove all generations older than 7 days
 clean:
