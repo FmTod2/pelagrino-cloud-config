@@ -4,14 +4,11 @@
   inputs,
   outputs,
   lib,
-  user,
   hostName,
-  stateVersion,
-  rootDomain,
   ...
 }: {
   # Set system state version
-  system.stateVersion = stateVersion;
+  system.stateVersion = "24.05";
 
   # Enable SSH server
   services.openssh.enable = true;
@@ -85,7 +82,7 @@
 
   # Configure environment
   environment = {
-    systemPackages = import ./systemPackages.nix pkgs;
+    systemPackages = import ./packages.nix pkgs;
 
     # Set environment variables
     sessionVariables = {
@@ -123,31 +120,19 @@
     })
   ];
 
-  # Set user name and groups
-  users = {
-    # Set default shell
-    defaultUserShell = pkgs.zsh;
-
-    # Set up the user accounts
-    users.${user.name} = {
-      isNormalUser = true;
-      description = user.description;
-      extraGroups = [user.name "wheel" "networkmanager"];
-
-      openssh.authorizedKeys.keys = [
-        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIP5mPSIN5BINqWXcPN+Iky1rePCrmSXx9mQpDpMNDThE pelagrino@remote"
-        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPaiRTYOkyQBD8JfB9Vx6GyP+P7AUv9hKDiV5k7PiCe1 pelagrino@github"
-      ];
-    };
-  };
+  # Set default shell to Zsh
+  users.defaultUserShell = pkgs.zsh;
 
   # Home Manager
   home-manager = {
     useUserPackages = true;
     useGlobalPkgs = true;
     backupFileExtension = "backup";
-    users.${user.name} = import ./home.nix;
-    extraSpecialArgs = {inherit inputs outputs user stateVersion;};
+    sharedModules = [outputs.homeManagerModules.defaults];
+    extraSpecialArgs = {
+      inherit inputs outputs;
+      stateVersion = config.system.stateVersion;
+    };
   };
 
   # Configure system programs
@@ -169,7 +154,7 @@
   # Configure needed services
   services = {
     # Enable redis
-    redis.servers.${user.name}.enable = true;
+    redis.servers.pelagrino.enable = true;
 
     # Enable MeiliSearch
     meilisearch = {
@@ -182,11 +167,11 @@
     postgresql = {
       enable = true;
 
-      ensureDatabases = [user.name];
+      ensureDatabases = ["pelagrino"];
 
       ensureUsers = [
         {
-          name = user.name;
+          name = "pelagrino";
           ensureDBOwnership = true;
         }
       ];

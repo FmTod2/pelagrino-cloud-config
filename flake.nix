@@ -17,6 +17,11 @@
       url = "github:Aloxaf/fzf-tab";
       flake = false;
     };
+
+    tmux-tokyo-night = {
+      url = "github:janoamaral/tokyo-night-tmux";
+      flake = false;
+    };
   };
 
   outputs = {
@@ -34,14 +39,8 @@
     # pass to it, with each system as an argument
     forAllSystems = nixpkgs.lib.genAttrs systems;
 
-    # Set global state version for nixos and home-manager
-    stateVersion = "24.05";
-
     # Hostname
     hostName = "pelagrino-production";
-
-    # Root domain
-    rootDomain = "pelagrino.com";
 
     # User information
     user = {
@@ -75,7 +74,7 @@
       ${hostName} = lib.nixosSystem {
         system = "x86_64-linux";
         specialArgs = {
-          inherit inputs outputs user hostName stateVersion rootDomain;
+          inherit inputs outputs user hostName;
         };
         modules =
           [
@@ -84,6 +83,7 @@
             ./hardware.nix
             ./configuration
             ./secrets
+            ./users
           ]
           ++ lib.attrsets.mapAttrsToList (name: value: value) outputs.nixosModules;
       };
