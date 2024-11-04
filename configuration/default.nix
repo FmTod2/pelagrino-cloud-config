@@ -128,7 +128,7 @@
     useUserPackages = true;
     useGlobalPkgs = true;
     backupFileExtension = "backup";
-    sharedModules = [outputs.homeManagerModules.defaults];
+    sharedModules = lib.mapAttrsToList (name: value: value) outputs.homeManagerModules;
     extraSpecialArgs = {
       inherit inputs outputs;
       stateVersion = config.system.stateVersion;
