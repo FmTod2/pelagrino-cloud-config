@@ -1,6 +1,5 @@
 {
   lib,
-  pkgs,
   config,
   ...
 }:
@@ -15,6 +14,6 @@ in {
   };
 
   config = mkIf cfg.enable {
-    
+    # ...
   };
 }
