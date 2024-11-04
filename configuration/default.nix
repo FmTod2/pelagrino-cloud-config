@@ -120,8 +120,15 @@
     })
   ];
 
-  # Set default shell to Zsh
-  users.defaultUserShell = pkgs.zsh;
+  users = {
+    # Set default shell to Zsh
+    defaultUserShell = pkgs.zsh;
+
+    # Add group for www-data
+    groups = {
+      "www-data" = {};
+    };
+  };
 
   # Home Manager
   home-manager = {
