@@ -195,8 +195,6 @@
           # Let other names login as themselves
           superuser_map      /^(.*)$   \1
       '';
-
-      initialScript = config.age.secrets."postgresql/initial".path;
     };
   };
 
