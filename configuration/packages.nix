@@ -29,6 +29,6 @@ with pkgs; [
   inetutils
   sysstat
   pm2
-  nodejs_20
-  corepack_20
+  nodejs_18
+  corepack_18
 ]
