@@ -198,5 +198,20 @@
     };
   };
 
-  server.pelagrino.enable = false;
+  # Configure systemd service for PM2
+  systemd.services.pm2 = {
+    enable = true;
+    description = "pm2";
+    unitConfig = {
+      Type = "simple";
+    };
+    wantedBy = [ "multi-user.target" ];
+    serviceConfig = {
+      ExecStart = "${pkgs.nodePackages_latest.pm2}/bin/pm2 resurrect";
+      ExecReload = "${pkgs.nodePackages_latest.pm2}/bin/pm2 reload all";
+      ExecStop = "${pkgs.nodePackages_latest.pm2}/bin/pm2 kill";
+    };
+  };
+
+  server.reverse-proxy.enable = false;
 }

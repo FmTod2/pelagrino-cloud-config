@@ -28,4 +28,5 @@ with pkgs; [
   wl-clipboard
   inetutils
   sysstat
+  pm2
 ]
