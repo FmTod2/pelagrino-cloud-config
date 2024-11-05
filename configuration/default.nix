@@ -206,7 +206,7 @@
     wantedBy = [ "multi-user.target" ];
     environment = {
       PM2_HOME = "/etc/.pm2";
-      PATH = lib.mkForce [
+      PATH = lib.concatStringsSep ":" [
         "/run/wrappers/bin"
         "${pkgs.nix}/profile/bin"
         "${pkgs.nodejs}/bin"
