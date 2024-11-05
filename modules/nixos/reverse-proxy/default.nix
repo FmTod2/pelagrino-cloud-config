@@ -5,7 +5,7 @@
   ...
 }:
 with lib; let
-  name = "pelagrino";
+  name = "reverse-proxy";
   namespace = "server";
 
   cfg = config.${namespace}.${name};
