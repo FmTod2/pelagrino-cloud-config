@@ -104,7 +104,11 @@ in {
       };
     };
 
+
     # Enable tmux
-    presets.tmux.enable = true;
+    presets.tmux = {
+      enable = true;
+      zshIntegration = true;
+    };
   };
 }
