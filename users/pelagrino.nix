@@ -63,7 +63,7 @@ in {
         autosuggestion = {
           enable = true;
           highlight = "fg=#ff00ff,bg=cyan,bold,underline";
-          strategy = ["history" "completion"];
+          # strategy = ["history" "completion"];
         };
 
         shellAliases = {
