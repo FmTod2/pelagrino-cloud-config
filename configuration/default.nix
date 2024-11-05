@@ -206,16 +206,6 @@
     wantedBy = [ "multi-user.target" ];
     environment = {
       PM2_HOME = "/etc/.pm2";
-      PATH = lib.concatStringsSep ":" [
-        "/run/wrappers/bin"
-        "${pkgs.nix}/profile/bin"
-        "${pkgs.nodejs}/bin"
-        "/bin"
-        "/usr/local/sbin"
-        "/usr/local/bin"
-        "/usr/sbin"
-        "/usr/bin"
-      ];
     };
     serviceConfig = {
       Type = "forking";
