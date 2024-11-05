@@ -202,14 +202,34 @@
   systemd.services.pm2 = {
     enable = true;
     description = "pm2";
-    unitConfig = {
-      Type = "simple";
-    };
+    after = [ "network.target" ];
     wantedBy = [ "multi-user.target" ];
+    environment = {
+      PM2_HOME = "/etc/.pm2";
+      PATH = lib.mkForce [
+        "/run/wrappers/bin"
+        "${pkgs.nix}/profile/bin"
+        "${pkgs.nodejs}/bin"
+        "/bin"
+        "/usr/local/sbin"
+        "/usr/local/bin"
+        "/usr/sbin"
+        "/usr/bin"
+      ];
+    };
     serviceConfig = {
-      ExecStart = "${pkgs.nodePackages_latest.pm2}/bin/pm2 resurrect";
-      ExecReload = "${pkgs.nodePackages_latest.pm2}/bin/pm2 reload all";
-      ExecStop = "${pkgs.nodePackages_latest.pm2}/bin/pm2 kill";
+      Type = "forking";
+      User = "pelagrino";
+      LimitNOFILE = "infinity";
+      LimitNPROC = "infinity";
+      LimitCORE = "infinity";
+      PIDFile = "/etc/.pm2/pm2.pid";
+
+      Restart = "on-failure";
+
+      ExecStart = "${pkgs.pm2}/bin/pm2 resurrect";
+      ExecReload = "${pkgs.pm2}/bin/pm2 reload all";
+      ExecStop = "${pkgs.pm2}/bin/pm2 kill";
     };
   };
 
