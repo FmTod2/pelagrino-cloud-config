@@ -10,30 +10,6 @@
   # Set system state version
   system.stateVersion = "24.05";
 
-  # Enable SSH server
-  services.openssh.enable = true;
-
-  # Disable printing
-  services.printing.enable = false;
-
-  # Enable the RealtimeKit system service
-  security.rtkit.enable = true;
-
-  # Enable SSH agent authentication
-  security.pam.sshAgentAuth.enable = true;
-  programs.ssh.startAgent = true;
-
-  # Configure networking
-  networking = {
-    inherit hostName;
-
-    useDHCP = false;
-    enableIPv6 = false;
-    networkmanager.enable = true;
-    usePredictableInterfaceNames = false;
-    interfaces.eth0.useDHCP = true;
-  };
-
   # Configure nixpkgs
   nixpkgs = {
     # You can add overlays here
@@ -81,6 +57,17 @@
     };
   };
 
+  # Configure networking
+  networking = {
+    inherit hostName;
+
+    useDHCP = false;
+    enableIPv6 = false;
+    networkmanager.enable = true;
+    usePredictableInterfaceNames = false;
+    interfaces.eth0.useDHCP = true;
+  };
+
   # Configure environment
   environment = {
     systemPackages = import ./packages.nix pkgs;
@@ -99,12 +86,6 @@
         value.source = value.flake;
       })
       config.nix.registry;
-  };
-
-  # Configure keymap in X11
-  services.xserver.xkb = {
-    layout = "us";
-    variant = "";
   };
 
   # Install fonts
@@ -143,8 +124,19 @@
     };
   };
 
+  security = {
+    # Enable the RealtimeKit system service
+    rtkit.enable = true;
+
+    # Enable SSH agent authentication
+    pam.sshAgentAuth.enable = true;
+  };
+
   # Configure system programs
   programs = {
+    # Enable SSH agent
+    ssh.startAgent = true;
+
     # Enable Zsh
     zsh.enable = true;
 
@@ -161,6 +153,9 @@
 
   # Configure needed services
   services = {
+    # Enable SSH server
+    openssh.enable = true;
+
     # Enable redis
     redis.servers.pelagrino.enable = true;
 
