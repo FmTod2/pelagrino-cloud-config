@@ -32,8 +32,13 @@ nix-upgrade-path COMMAND='switch':
 upgrade COMMAND='switch':
   nh os {{COMMAND}}
 
+# Upgrade the system using the nix helper utility
+pull-upgrade COMMAND='switch':
+  git pull
+  nh os {{COMMAND}}
+
 # Commit any pending file changes and upgrade the system
-commit-and-upgrade MESSAGE COMMAND='switch':
+commit-upgrade MESSAGE COMMAND='switch':
   git add .
   git commit -m "{{MESSAGE}}"
   nh os {{COMMAND}}

@@ -58,8 +58,13 @@ in {
       # Enable zsh with plugins
       zsh = {
         enable = true;
-        autosuggestion.enable = true;
         syntaxHighlighting.enable = true;
+
+        autosuggestion = {
+          enable = true;
+          highlight = "fg=#ff00ff,bg=cyan,bold,underline";
+          strategy = ["history" "completion"];
+        };
 
         shellAliases = {
           ls = "lsd";
@@ -90,6 +95,12 @@ in {
             file = "fzf-tab.plugin.zsh";
           }
         ];
+
+        initExtra = ''
+          if [[ $- =~ i ]] && [[ -z "$TMUX" ]] && [[ -n "$SSH_TTY" ]]; then
+            tmux attach-session -t ssh_tmux || tmux new-session -s ssh_tmux
+          fi
+        '';
       };
     };
 
