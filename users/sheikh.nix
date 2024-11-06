@@ -1,4 +1,4 @@
-{inputs, ...}: let
+{...}: let
   user = "sheikh";
   description = "Sheikh";
 in {
