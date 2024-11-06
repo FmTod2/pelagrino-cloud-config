@@ -19,8 +19,11 @@ in {
       # Use networkd to manage networking
       useNetworkd = true;
 
-      # Use predictable interface names
+      # Disable DHCP globally as we will not need it.
       useDHCP = false;
+
+      # Disable predictable interface names as it Linode has a single interface
+      # Optional, but might help with troubleshooting later
       usePredictableInterfaceNames = false;
 
       # Configure network interfaces
@@ -41,14 +44,14 @@ in {
           # Start a DHCP Client for IPv4 Addressing/Routing
           DHCP = "ipv4";
 
-          # accept Router Advertisements for Stateless IPv6 Autoconfiguraton (SLAAC)
+          # Accept Router Advertisements for Stateless IPv6 Autoconfiguraton (SLAAC)
           IPv6AcceptRA = true;
 
           # Disable IPv6 Privacy Extensions
           IPv6PrivacyExtensions = false;
         };
 
-        # make routing on this interface a dependency for network-online.target
+        # Make routing on this interface a dependency for network-online.target
         linkConfig.RequiredForOnline = "routable";
       };
     };
