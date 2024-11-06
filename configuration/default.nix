@@ -77,9 +77,9 @@
       # Set flake path
       FLAKE = "/etc/nixos";
 
-      COREPACK_ENABLE_STRICT = 0;
-      COREPACK_ENABLE_AUTO_PIN = 0;
-      COREPACK_ENABLE_PROJECT_SPEC = 0;
+      COREPACK_ENABLE_STRICT = "0";
+      COREPACK_ENABLE_AUTO_PIN = "0";
+      COREPACK_ENABLE_PROJECT_SPEC = "0";
     };
 
     # This will additionally add your inputs to the system's legacy channels
