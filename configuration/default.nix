@@ -62,10 +62,13 @@
   networking = {
     inherit hostName;
 
-    useDHCP = false;
-    networkmanager.enable = true;
-    usePredictableInterfaceNames = false;
-    interfaces.eth0.useDHCP = true;
+    firewall = {
+      allowedTCPPorts = [
+        # HTTP
+        80
+        443
+      ];
+    };
   };
 
   # Configure environment
@@ -133,7 +136,10 @@
     rtkit.enable = true;
 
     # Enable SSH agent authentication
-    pam.sshAgentAuth.enable = true;
+    pam = {
+      sshAgentAuth.enable = true;
+      services.sudo.sshAgentAuth = true;
+    };
   };
 
   # Configure system programs
@@ -158,7 +164,20 @@
   # Configure needed services
   services = {
     # Enable SSH server
-    openssh.enable = true;
+    openssh = {
+      enable = true;
+      startWhenNeeded = true;
+
+      settings = {
+        GatewayPorts = "yes";
+        PermitRootLogin = "no";
+        PasswordAuthentication = false;
+      };
+    };
+
+    locate.enable = true;
+    fail2ban.enable = true;
+    logrotate.enable = true;
 
     # Enable redis
     redis.servers.pelagrino.enable = true;
@@ -198,30 +217,34 @@
     };
   };
 
-  # Configure systemd service for PM2
-  systemd.services.pm2 = {
-    enable = true;
-    description = "pm2";
-    after = [ "network.target" ];
-    wantedBy = [ "multi-user.target" ];
-    environment = {
-      PM2_HOME = "/etc/.pm2";
-    };
-    serviceConfig = {
-      Type = "forking";
-      User = "pelagrino";
-      LimitNOFILE = "infinity";
-      LimitNPROC = "infinity";
-      LimitCORE = "infinity";
-      PIDFile = "/etc/.pm2/pm2.pid";
 
-      Restart = "on-failure";
+  systemd = {
+    # Configure systemd service for PM2
+    services.pm2 = {
+      enable = true;
+      description = "pm2";
+      after = [ "network.target" ];
+      wantedBy = [ "multi-user.target" ];
+      environment = {
+        PM2_HOME = "/etc/.pm2";
+      };
+      serviceConfig = {
+        Type = "forking";
+        User = "pelagrino";
+        LimitNOFILE = "infinity";
+        LimitNPROC = "infinity";
+        LimitCORE = "infinity";
+        PIDFile = "/etc/.pm2/pm2.pid";
 
-      ExecStart = "${pkgs.pm2}/bin/pm2 resurrect";
-      ExecReload = "${pkgs.pm2}/bin/pm2 reload all";
-      ExecStop = "${pkgs.pm2}/bin/pm2 kill";
+        Restart = "on-failure";
+
+        ExecStart = "${pkgs.pm2}/bin/pm2 resurrect";
+        ExecReload = "${pkgs.pm2}/bin/pm2 reload all";
+        ExecStop = "${pkgs.pm2}/bin/pm2 kill";
+      };
     };
   };
 
   server.reverse-proxy.enable = false;
+  linode.networking.enable = true;
 }
