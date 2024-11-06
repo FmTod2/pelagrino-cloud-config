@@ -28,6 +28,7 @@ with pkgs; [
   wl-clipboard
   inetutils
   sysstat
+  dig
   pm2
   nodejs_18
   corepack_18
