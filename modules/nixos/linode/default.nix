@@ -39,7 +39,7 @@ in {
         matchConfig.Name = "eth0";
         networkConfig = {
           # Start a DHCP Client for IPv4 Addressing/Routing
-          DHCP = "yes";
+          DHCP = "ipv4";
 
           # accept Router Advertisements for Stateless IPv6 Autoconfiguraton (SLAAC)
           IPv6AcceptRA = true;
