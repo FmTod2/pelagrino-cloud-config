@@ -38,7 +38,7 @@ in {
       networks."10-wired" = {
         matchConfig.Name = "eth0";
         networkConfig = {
-          # start a DHCP Client for IPv4 Addressing/Routing
+          # Start a DHCP Client for IPv4 Addressing/Routing
           DHCP = "yes";
 
           # accept Router Advertisements for Stateless IPv6 Autoconfiguraton (SLAAC)
