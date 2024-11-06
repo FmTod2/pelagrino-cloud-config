@@ -63,7 +63,6 @@
     inherit hostName;
 
     useDHCP = false;
-    enableIPv6 = false;
     networkmanager.enable = true;
     usePredictableInterfaceNames = false;
     interfaces.eth0.useDHCP = true;
