@@ -62,13 +62,11 @@
   networking = {
     inherit hostName;
 
-    firewall = {
-      allowedTCPPorts = [
-        # HTTP
-        80
-        443
-      ];
-    };
+    # Allow http(s) ports
+    firewall.allowedTCPPorts = [
+      80
+      443
+    ];
   };
 
   # Configure environment
