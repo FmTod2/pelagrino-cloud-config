@@ -5,6 +5,7 @@
   outputs,
   lib,
   hostName,
+  flakePath,
   ...
 }: {
   # Set system state version
@@ -75,7 +76,7 @@
     # Set environment variables
     sessionVariables = {
       # Set flake path
-      FLAKE = "/etc/nixos";
+      FLAKE = flakePath;
 
       COREPACK_ENABLE_STRICT = "0";
       COREPACK_ENABLE_AUTO_PIN = "0";
@@ -147,7 +148,7 @@
     # Enable NH for easier system rebuilds
     nh = {
       enable = true;
-      flake = "/etc/nixos";
+      flake = flakePath;
       clean = {
         enable = true;
         extraArgs = "--keep-since 4d --keep 3";

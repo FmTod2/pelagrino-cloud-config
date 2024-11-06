@@ -39,14 +39,11 @@
     # pass to it, with each system as an argument
     forAllSystems = nixpkgs.lib.genAttrs systems;
 
+    # Path to nixos flake
+    flakePath = "/etc/nixos";
+
     # Hostname
     hostName = "pelagrino-production";
-
-    # User information
-    user = {
-      name = "pelagrino";
-      description = "Pelagrino";
-    };
   in {
     # Your custom packages
     # Accessible through 'nix build', 'nix shell', etc
@@ -74,7 +71,7 @@
       ${hostName} = lib.nixosSystem {
         system = "x86_64-linux";
         specialArgs = {
-          inherit inputs outputs user hostName;
+          inherit inputs outputs hostName flakePath;
         };
         modules =
           [
