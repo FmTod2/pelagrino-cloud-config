@@ -26,7 +26,7 @@ in {
       # Configure network interfaces
       interfaces.eth0 = {
         useDHCP = true;
-        tempAddress = false;
+        tempAddress = "disabled";
       };
     };
 
