@@ -45,7 +45,7 @@ in {
           IPv6AcceptRA = true;
 
           # Disable IPv6 Privacy Extensions
-          IPv6PrivacyExtensions = "no";
+          IPv6PrivacyExtensions = false;
         };
 
         # make routing on this interface a dependency for network-online.target
