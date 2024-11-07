@@ -33,4 +33,5 @@ with pkgs; [
   nodejs_18
   pnpm
   yarn
+  bun
 ]
