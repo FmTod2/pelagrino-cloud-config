@@ -177,14 +177,6 @@
     fail2ban.enable = true;
     logrotate.enable = true;
 
-    # Enable smartd for disk monitoring
-    smartd = {
-      enable = true;
-      devices = [
-        { device = "/dev/sda"; }
-      ];
-    };
-
     # Enable redis
     redis.servers.pelagrino.enable = true;
 
