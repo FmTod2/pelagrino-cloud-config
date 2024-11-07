@@ -32,4 +32,5 @@ with pkgs; [
   dig
   pm2
   nodejs_20
+  corepack_20
 ]
