@@ -28,6 +28,7 @@ with pkgs; [
   wl-clipboard
   inetutils
   sysstat
+  smartmontools
   dig
   pm2
   nodejs_18
