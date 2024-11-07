@@ -31,8 +31,5 @@ with pkgs; [
   smartmontools
   dig
   pm2
-  nodejs_18
-  pnpm
-  yarn
-  bun
+  nodejs_20
 ]
