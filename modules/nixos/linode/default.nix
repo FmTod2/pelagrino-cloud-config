@@ -55,5 +55,12 @@ in {
         linkConfig.RequiredForOnline = "routable";
       };
     };
+
+    # Add frequently used tools by Linode support
+    environment.systemPackages = with pkgs; [
+        inetutils
+        mtr
+        sysstat
+    ];
   };
 }
