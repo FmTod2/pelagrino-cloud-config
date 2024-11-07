@@ -31,5 +31,6 @@ with pkgs; [
   dig
   pm2
   nodejs_18
-  corepack_18
+  pnpm
+  yarn
 ]
