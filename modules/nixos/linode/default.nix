@@ -12,14 +12,18 @@ with lib; let
 in {
   options.${namespace}.${name} = {
     enable = mkEnableOption (mdDoc name);
+    useNetworkd = mkOption {
+      type = types.bool;
+      default = false;
+      description = ''
+        Use networkd to manage networking
+      '';
+    };
   };
 
   config = mkIf cfg.enable {
     # Configure networking
     networking = {
-      # Use networkd to manage networking
-      useNetworkd = true;
-
       # Disable DHCP globally as we will not need it.
       useDHCP = false;
 
@@ -32,10 +36,17 @@ in {
         useDHCP = true;
         tempAddress = "disabled";
       };
+
+      # Force enable solicitation and receipt of IPv6 Router Advertisements.
+      # Allows global IPv6 address auto-configuration with SLAAC
+      dhcpcd.IPv6rs = mkIf cfg.useNetworkd == false;
+
+      # Use networkd to manage networking
+      useNetworkd = mkIf cfg.useNetworkd true;
     };
 
     # Configure systemd network
-    systemd.network = {
+    systemd.network = mkIf cfg.useNetworkd {
       enable = true;
 
       # Configure network interfaces
