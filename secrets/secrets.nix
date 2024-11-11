@@ -3,5 +3,4 @@ let
   local = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIVQJb4vtkKXIrgE440ywBqMLNKZvbLEbT7G5WEFIvL+";
 in {
   "meilisearch/environment.age".publicKeys = [remote local];
-  "postgresql/init.age".publicKeys = [remote local];
 }
