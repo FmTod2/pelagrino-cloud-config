@@ -10,30 +10,62 @@ with lib; let
 
   cfg = config.${namespace}.${name};
 in {
-  options.${namespace}.${name} = {
+  options.${namespace}.${name} = with types; {
     enable = mkEnableOption (mdDoc name);
 
     rootDomain = mkOption {
-      type = types.str;
+      type = str;
       default = "pelagrino.com";
       description = "The root domain for the server";
     };
 
     rootLocation = mkOption {
-      type = types.path;
+      type = path;
       default = "/var/www";
       description = "The root location for the server";
     };
 
     subDomains = mkOption {
-      type = types.attrsetOf types.str;
-      default = {
-        meilisearch = "meilisearch";
-        admin = "admin";
-        api = "api";
-        cms = "cms";
-      };
       description = "The subdomains for the server";
+      type = attrsOf (submodule {
+        options = {
+          name = mkOption {
+            type = str;
+            description = "The name of the subdomain";
+          };
+          location = mkOption {
+            type = str;
+            description = "The location for the subdomain";
+          };
+          proxyPass = mkOption {
+            type = str;
+            description = "The location to proxy pass to";
+          };
+          forceSSL = mkOption {
+            type = bool;
+            default = true;
+            description = "Force SSL for the subdomain";
+          };
+        };
+      });
+      default = {
+        meilisearch = { 
+          location = "/";
+          proxyPass = "http://127.0.0.1:7700";
+        };
+        admin = {
+          location = "/";
+          proxyPass = "http://127.0.0.1:9000";
+        };
+        api = {
+          location = "/";
+          proxyPass = "http://127.0.0.1:9000";
+        };
+        cms = {
+          location = "/";
+          proxyPass = "http://strapi";
+        };
+      };
     };
   };
 
@@ -44,7 +76,7 @@ in {
       defaults.email = "it+acme@${cfg.rootDomain}";
       certs.${cfg.rootDomain} = {
         dnsProvider = "linode";
-        extraDomainNames = lib.attrsets.mapAttrsToList (name: value: name) cfg.subDomains;
+        extraDomainNames = map (key: "${key}.${cfg.rootDomain}") (builtins.attrNames cfg.subDomains);
       };
     };
 
@@ -96,7 +128,7 @@ in {
             root = cfg.rootLocation;
 
             extraConfig = ''
-              charset         utf-8;
+              charset utf-8;
 
               add_header X-Frame-Options "SAMEORIGIN";
               add_header X-XSS-Protection "1; mode=block";
@@ -114,31 +146,11 @@ in {
               '';
             };
           };
-
-          "meilisearch.${cfg.rootDomain}" = {
-            forceSSL = true;
-            useACMEHost = cfg.rootDomain;
-            locations."/".proxyPass = "http://127.0.0.1:7700";
-          };
-
-          "admin.${cfg.rootDomain}" = {
-            forceSSL = true;
-            useACMEHost = cfg.rootDomain;
-            locations."/".proxyPass = "http://127.0.0.1:9000";
-          };
-
-          "api.${cfg.rootDomain}" = {
-            forceSSL = true;
-            useACMEHost = cfg.rootDomain;
-            locations."/".proxyPass = "http://127.0.0.1:9000";
-          };
-
-          "cms.${cfg.rootDomain}" = {
-            forceSSL = true;
-            useACMEHost = cfg.rootDomain;
-            locations."/".proxyPass = "http://strapi";
-          };
-        };
+        } // lib.attrsets.mapAttrs' (name: value: (nameValuePair "${name}.${cfg.rootDomain}" {
+          forceSSL = value.forceSSL;
+          useACMEHost = cfg.rootDomain;
+          locations."${value.location}".proxyPass = value.proxyPass;
+        })) cfg.subDomains;
       };
     };
   };
