@@ -215,14 +215,13 @@
     };
   };
 
-
   systemd = {
     # Configure systemd service for PM2
     services.pm2 = {
       enable = true;
       description = "pm2";
-      after = [ "network.target" ];
-      wantedBy = [ "multi-user.target" ];
+      after = ["network.target"];
+      wantedBy = ["multi-user.target"];
       environment = {
         PM2_HOME = "/etc/.pm2";
       };

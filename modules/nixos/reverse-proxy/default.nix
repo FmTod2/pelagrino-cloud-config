@@ -49,7 +49,7 @@ in {
         };
       });
       default = {
-        meilisearch = { 
+        meilisearch = {
           location = "/";
           proxyPass = "http://127.0.0.1:7700";
         };
@@ -120,37 +120,40 @@ in {
         recommendedGzipSettings = true;
         recommendedProxySettings = true;
 
-        virtualHosts = {
-          ${cfg.rootDomain} = {
-            forceSSL = true;
-            enableACME = true;
-            serverAliases = ["www.${cfg.rootDomain}"];
-            root = cfg.rootLocation;
+        virtualHosts =
+          {
+            ${cfg.rootDomain} = {
+              forceSSL = true;
+              enableACME = true;
+              serverAliases = ["www.${cfg.rootDomain}"];
+              root = cfg.rootLocation;
 
-            extraConfig = ''
-              charset utf-8;
+              extraConfig = ''
+                charset utf-8;
 
-              add_header X-Frame-Options "SAMEORIGIN";
-              add_header X-XSS-Protection "1; mode=block";
-              add_header X-Content-Type-Options "nosniff";
-            '';
-
-            locations = {
-              "/".tryFiles = "$url @proxy";
-              "@proxy".proxyPass = "http://127.0.0.1:3000";
-              "~ \\.php$".extraConfig = ''
-                fastcgi_index index.php;
-                fastcgi_split_path_info ^(.+\.php)(/.+)$;
-                fastcgi_pass unix:${config.services.phpfpm.pools.${name}.socket};
-                include ${pkgs.nginx}/conf/fastcgi.conf;
+                add_header X-Frame-Options "SAMEORIGIN";
+                add_header X-XSS-Protection "1; mode=block";
+                add_header X-Content-Type-Options "nosniff";
               '';
+
+              locations = {
+                "/".tryFiles = "$url @proxy";
+                "@proxy".proxyPass = "http://127.0.0.1:3000";
+                "~ \\.php$".extraConfig = ''
+                  fastcgi_index index.php;
+                  fastcgi_split_path_info ^(.+\.php)(/.+)$;
+                  fastcgi_pass unix:${config.services.phpfpm.pools.${name}.socket};
+                  include ${pkgs.nginx}/conf/fastcgi.conf;
+                '';
+              };
             };
-          };
-        } // lib.attrsets.mapAttrs' (name: value: (nameValuePair "${name}.${cfg.rootDomain}" {
-          forceSSL = value.forceSSL;
-          useACMEHost = cfg.rootDomain;
-          locations."${value.location}".proxyPass = value.proxyPass;
-        })) cfg.subDomains;
+          }
+          // lib.attrsets.mapAttrs' (name: value: (nameValuePair "${name}.${cfg.rootDomain}" {
+            forceSSL = value.forceSSL;
+            useACMEHost = cfg.rootDomain;
+            locations."${value.location}".proxyPass = value.proxyPass;
+          }))
+          cfg.subDomains;
       };
     };
   };
