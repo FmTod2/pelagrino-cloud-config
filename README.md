@@ -31,3 +31,10 @@ The NixOS configurations are defined in the `nixosConfigurations` attribute. The
 - [`./configuration`](./configuration/)
 - [`./secrets`](./secrets)
 - [`./users`](./users)
+
+## Modules
+
+- [NixOS Linode](./modules/nixos/linode/default.nix)
+- [NixOS Reverse Proxy](./modules/nixos/reverse-proxy/default.nix)
+- [Home Manager Defaults](./modules/home-manager/defaults/default.nix)
+- [Home Manager Tmux](./modules/home-manager/tmux/default.nix)
