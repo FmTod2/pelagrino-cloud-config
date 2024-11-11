@@ -11,7 +11,6 @@ This flake configuration sets up a NixOS system with various inputs, outputs, an
 - **fzf-tab:** [`github:Aloxaf/fzf-tab`](https://github.com/Aloxaf/fzf-tab)
 - **tmux-tokyo-night:** [`github:janoamaral/tokyo-night-tmux`](https://github.com/janoamaral/tokyo-night-tmux)
 
-
 ## Outputs
 
 - **Supported Systems:** `x86_64-linux`
